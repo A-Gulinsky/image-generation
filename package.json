@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@google/genai": "^1.29.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "multer": "^2.0.2",
+    "ngrok": "^5.0.0-beta.2",
+    "nodemailer": "^7.0.10",
+    "sharp": "^0.34.5"
+  },
+  "type": "module",
+  "name": "ai-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
