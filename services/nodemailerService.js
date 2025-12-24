@@ -4,7 +4,7 @@ export async function sendMail(data) {
 
   const NODEMAILER_PASS = process.env.NODEMAILER_PASS
   const MY_EMAIL = process.env.NODEMAILER_SENDER
-  const to = process.env.NODEMAILER_RECIPIENT
+  const to = [process.env.NODEMAILER_RECIPIENT, data.email]
 
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -25,11 +25,12 @@ export async function sendMail(data) {
   ]
 
   const from = MY_EMAIL;
-  const subject = "This Is Sent By NodeMailer";
+  const subject = "Costa Cover Wall Generation";
   const html = `
-    <p>Wall width: ${data.wall_width}in</p>
-    <p>Wall height: ${data.wall_height}in</p>
-    <p>Customer Email: <strong style="color: #000">${data.email}</strong></p>
+    <p><strong>Wall width</strong>: ${data.wall_width}in</p>
+    <p><strong>Wall height</strong>: ${data.wall_height}in</p>
+    <p><strong>Customer Email:</strong> <strong>${data.email}</strong></p>
+    <p><strong>Customer Preferences:</strong> ${data.preferences}</p>
     <img src="cid:geminiImage" style="width:300px;" />
     `;
   return new Promise((resolve, reject) => {
