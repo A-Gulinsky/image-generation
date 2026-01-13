@@ -5,11 +5,11 @@ export function checkAccessibility(req,res,next) {
   const origin = req.headers.origin
   
   // honeypot
-  // const honeypot = req.body.honeypot
-
-  // if(honeypot) {
-  //   return res.status(400).json({ status:"error", message:"Bot detected" });
-  // }
+  const honeypot = req.body.honeypot
+  console.log('honeypot check', honeypot)
+  if(honeypot) {
+    return res.status(400).json({ status:"error", message:"Bot detected" });
+  }
 
   if(!origin) {
     console.log('Origin missing')

@@ -4,7 +4,7 @@ export async function sendMail(data) {
 
   const NODEMAILER_PASS = process.env.NODEMAILER_PASS
   const MY_EMAIL = process.env.NODEMAILER_SENDER
-  const to = [process.env.NODEMAILER_RECIPIENT, data.email]
+  const to = [process.env.NODEMAILER_RECIPIENT]
 
   const transport = nodemailer.createTransport({
     service: "gmail",
