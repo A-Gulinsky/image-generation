@@ -14,22 +14,24 @@ export async function sendMail(data) {
   });
 
   const recipients = [
-    { email: process.env.NODEMAILER_RECIPIENT, watermark: false },
-    { email: data.email, watermark: true },
+    { email: process.env.NODEMAILER_RECIPIENT, isCustomer: false },
+    { email: data.email, isCustomer: true },
   ];
 
   const htmlContent = `
-    <p><strong>Wall width</strong>: ${data.wall_width}in</p>
-    <p><strong>Wall height</strong>: ${data.wall_height}in</p>
-    <p><strong>Customer Email:</strong> <strong>${data.email}</strong></p>
-    <p><strong>Customer Preferences:</strong> ${data.preferences}</p>
+    <h2 style="line-height:normal;font-size: 14px;">Here are the details of the wallpapers you’ve recently generated. We’ll be in touch with you shortly!</h2>
+    <p style="margin: 4px 0;"><strong>Wall width</strong>: ${data.wall_width}in</p>
+    <p style="margin: 4px 0;"><strong>Wall height</strong>: ${data.wall_height}in</p>
+    <p style="margin: 4px 0;"><strong>Customer Email:</strong> <strong>${data.email}</strong></p>
+    <p style="margin: 4px 0;"><strong>Customer Preferences:</strong> ${data.preferences}</p>
     <img src="cid:geminiImage" style="width:300px;" />
   `;
 
   for (const recipient of recipients) {
-    const imageBase64 = recipient.watermark
-      ? await imageWithWaterMark(data.image_base64)
-      : data.image_base64;
+    const imageBase64 = recipient.isCustomer ? await imageWithWaterMark(data.image_base64) : data.image_base64;
+    const subject = recipient.isCustomer ? 
+    'Your wallpaper details are here!' :
+    `Costa Cover Wall Generation ${generateRandomDigits()}`
 
     const attachments = [
       {
@@ -43,7 +45,7 @@ export async function sendMail(data) {
     await transport.sendMail({
       from: MY_EMAIL,
       to: recipient.email,
-      subject: `Costa Cover Wall Generation ${generateRandomDigits()}`,
+      subject: subject,
       html: htmlContent,
       attachments,
     });
