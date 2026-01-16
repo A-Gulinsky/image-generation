@@ -24,7 +24,6 @@ export async function sendMail(data) {
     <p style="margin: 4px 0;"><strong>Wall height</strong>: ${data.wall_height}in</p>
     <p style="margin: 4px 0;"><strong>Customer Email:</strong> <strong>${data.email}</strong></p>
     <p style="margin: 4px 0;"><strong>Customer Preferences:</strong> ${data.preferences}</p>
-    <img src="cid:geminiImage" style="width:300px;" />
   `;
 
   for (const recipient of recipients) {
@@ -35,10 +34,11 @@ export async function sendMail(data) {
 
     const attachments = [
       {
-        filename: `image-generation.png`,
+        filename: `image-generation.webp`,
         content: imageBase64,
         encoding: 'base64',
         cid: "geminiImage",
+        contentType: 'image/webp'
       },
     ];
 
@@ -78,7 +78,7 @@ const imageWithWaterMark = async(image) => {
 function generateRandomDigits(length = 4) {
   let result = '';
   for (let i = 0; i < length; i++) {
-    result += Math.floor(Math.random() * 10); // цифра от 0 до 9
+    result += Math.floor(Math.random() * 10);
   }
   return result;
 }

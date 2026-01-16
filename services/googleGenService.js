@@ -13,23 +13,36 @@ export async function getImageBuffer(payload) {
     const ai = new GoogleGenAI({ apiKey: API_KEY });
 
     const preparedPrompt = `
-      Photorealistic scene featuring a single flat wall in a modern apartment or house.
-      The wall must be seamless, centered, and fully visible.
-      Apply the following design on the wall: ${prompt}.
+      This is NOT an interior scene.
+      This is a wall surface visualization.
+      Photorealistic close-up view of a single flat wall surface.
+      The wall surface must fill 100% of the image frame edge-to-edge.
+
+      The image must represent the wall itself, not an object placed on a wall.
+      The design must be part of the wall surface (paint, mural, texture, material), not a separate object.
+
+      Apply the following wall surface design: ${prompt}.
 
       Absolute requirements:
+      - The wall occupies the entire image
+      - No visible room context
       - No furniture
-      - No floors visible
-      - No ceilings visible
-      - No windows, doors, frames, curtains
-      - No shelves, lamps, outlets, switches
-      - No paintings, posters, decorations
-      - No objects, silhouettes, or shadows implying any object outside frame
-      - The scene should show ONLY the wall texture and lighting
-      - Straight-on front view, no perspective corners
+      - No floors
+      - No ceilings
+      - No corners
+      - No windows, doors, frames
+      - No paintings, posters, panels, screens, canvases
+      - No borders, margins, or background
+      - No objects mounted or attached to the wall
+      - No shadows from off-frame objects
+
+      Camera & composition:
+      - Straight-on orthographic front view
+      - No perspective depth
+      - Flat frontal composition
 
       Style notes:
-      Hyper-realistic lighting, soft shadows, ultra–high texture detail, clean neutral environment, photorealistic render.
+      Ultra photorealistic wall surface, realistic material texture, soft natural lighting, high detail, clean neutral lighting.
     `
     const preparedEditPrompt = `
       You are editing an existing photorealistic image of a flat wall in a modern apartment or house.
@@ -67,12 +80,13 @@ export async function getImageBuffer(payload) {
     }
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-image",
+      model: "gemini-3-pro-image-preview",
       contents: dataPrompt,
       config: {
         responseModalities: ['IMAGE'],
         imageConfig: {
           aspectRatio: '16:9',
+          imageSize: '2K'
         },
       }
     });
@@ -98,7 +112,7 @@ export async function getImageBuffer(payload) {
         
         const pngBuffer = Buffer.from(part.inlineData.data, "base64");
         const webpBuffer = await sharp(pngBuffer)
-          .webp({ quality: 90 }) 
+          .webp({ quality: 100,lossless: true }) 
           .toBuffer();
 
         return webpBuffer;

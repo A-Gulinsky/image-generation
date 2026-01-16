@@ -8,7 +8,7 @@ export async function generateImage(req, res, next) {
 
     const imageBuffer = await googleGenService.getImageBuffer(payload);
     res.set({
-      "Content-Type": "image/png",
+      "Content-Type": "image/webp",
       "Content-Length": imageBuffer.length,
       "Access-Control-Allow-Origin": process.env.ALLOWED_ORIGIN,
       "X-Image-ID": "image-id-optional"
