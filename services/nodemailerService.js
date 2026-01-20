@@ -24,7 +24,7 @@ export async function sendMail(data) {
     <p style="margin: 4px 0;"><strong>Wall height</strong>: ${data.wall_height}in</p>
     <p style="margin: 4px 0;"><strong>Customer Email:</strong> <strong>${data.email}</strong></p>
     <p style="margin: 4px 0;"><strong>Additional Info:</strong> ${data.preferences}</p>
-    <p style="margin: 4px 0;"><strong>Total</strong>: ${data.total_sum}in</p>
+    <p style="margin: 4px 0;"><strong>Total</strong>: ${data.total_sum}</p>
   `;
 
   for (const recipient of recipients) {
