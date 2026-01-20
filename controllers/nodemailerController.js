@@ -7,7 +7,8 @@ export async function sendMailController(req, res, next) {
       image_base64: req.body.image_base64,
       wall_height: req.body.wall_height,
       wall_width: req.body.wall_width,
-      preferences: req.body.preferences
+      preferences: req.body.preferences,
+      total_sum: req.body.total_sum
     }
     if (!data.image_base64) return res.status(400).json({ status: "error", message: "image required" });
     const info = await mailService.sendMail(data);
