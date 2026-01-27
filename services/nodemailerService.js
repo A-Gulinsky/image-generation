@@ -19,7 +19,10 @@ export async function sendMail(data) {
   ];
 
   const htmlContent = `
-    <h2 style="line-height:normal;font-size: 14px;">Here are the details of the wallpapers you’ve recently generated. We’ll be in touch with you shortly!</h2>
+    <h2 style="line-height:normal;font-size: 14px;">
+      Here are the details of the wallpapers you’ve recently generated. We’ll be in touch with you shortly!<br>
+      Or you can email us directly to: <a href="mailto:sales@costacover.com">sales@costacover.com</a>
+    </h2>
     <p style="margin: 4px 0;"><strong>Wall width</strong>: ${data.wall_width}in</p>
     <p style="margin: 4px 0;"><strong>Wall height</strong>: ${data.wall_height}in</p>
     <p style="margin: 4px 0;"><strong>Customer Email:</strong> <strong>${data.email}</strong></p>
@@ -30,7 +33,7 @@ export async function sendMail(data) {
   for (const recipient of recipients) {
     const imageBase64 = recipient.isCustomer ? await imageWithWaterMark(data.image_base64) : data.image_base64;
     const subject = recipient.isCustomer ? 
-    'Your wallpaper details are here!' :
+    'CostaCover AI: your wallpaper details are here!' :
     `Costa Cover Wall Generation ${generateRandomDigits()}`
 
     const attachments = [
